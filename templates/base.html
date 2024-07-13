@@ -1,62 +1,76 @@
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
    <head>
       <meta charset="utf-8" />
       <title>safeline</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>Medihacls</title>
+      <link rel="icon" href="img/favicon.png">
+      <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
       <!-- Main CSS -->
       {% load static %}
       <link rel="stylesheet" href="{% static 'css/style.css' %}" />
       <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
-      <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/fontawesome.min.css' %}" />
-      <link rel="stylesheet" href="{% static 'plugins/fontawesome/css/all.min.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/icofont.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/normalize.css' %}" />
+      <link rel="stylesheet" href="{% static 'css/responsive.css' %}" />
    </head>
    <body>
       <div class="main-wrapper">
          <!-- Header -->
          <header class="header">
-            <nav class="navbar navbar-expand-lg header-nav">
-               <div class="navbar-header">
-                  <a href="index-2.html" class="navbar-brand logo">
-                     <img src="https://user-images.githubusercontent.com/43414928/218250634-e8458cfe-03a2-4769-811a-986dc4b2475a.png" class="img-fluid logo-img" alt="Logo" />
-                  </a>
-               </div>
-               <div class="main-menu-wrapper">
-                  <ul class="main-nav">
-                     <li class="active">
-                        <a href="index-2.html">Home</a>
-                     </li>
-
-                     <li class="has-submenu">
-                        <a href="#">Dashboard</a>
-                     </li>
-                     <li class="has-submenu">
-                        <a href="#">History</a>
-                     </li>
-                     <li class="has-submenu">
-                        <a href="#">Prescriptions</a>
-                     </li>
-                     <li class="has-submenu">
-                        <a href="#">Invoices</a>
-                     </li>
-                  </ul>
-               </div>
-               <ul class="nav header-navbar-rht">
-                  <li class="nav-item contact-item">
-                     <div class="header-contact-img">
-                        <i class="far fa-hospital"></i>
-                     </div>
-                     <div class="header-contact-detail">
-                        <p class="contact-header">Contact</p>
-                        <p class="contact-info-header">+91 91873372</p>
-                     </div>
-                  </li>
-                  <li class="nav-item">
-                     <a class="nav-link header-login" href="login.html">Logout </a>
-                  </li>
-               </ul>
-            </nav>
+            <div class="header-inner">
+                <div class="container">
+                    <div class="inner">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-12">
+                                <div class="logo">
+                                    <a href="index.html"><img src="img/logo.png" alt="#"></a>
+                                </div>
+                                <div class="mobile-nav"></div>
+                            </div>
+                            <div class="col-lg-7 col-md-9 col-12">
+                                <div class="main-menu">
+                                    <nav class="navigation">
+                                        <ul class="nav menu">
+                                            <li class="active"><a href="#">Home <i class="icofont-rounded-down"></i></a>
+                                                <ul class="dropdown">
+                                                    <li><a href="index.html">Home Page 1</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="#">Doctors</a></li>
+                                            <li><a href="#">Services</a></li>
+                                            <li><a href="#">Pages <i class="icofont-rounded-down"></i></a>
+                                                <ul class="dropdown">
+                                                    <li><a href="404.html">404 Error</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="#">Blogs <i class="icofont-rounded-down"></i></a>
+                                                <ul class="dropdown">
+                                                    <li><a href="blog-single.html">Blog Details</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="contact.html">Contact Us</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-12">
+                                <div class="get-quote">
+                                    <a href="appointment.html" class="btn">Book Appointment</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
          </header>
          <!-- /Header -->
 
