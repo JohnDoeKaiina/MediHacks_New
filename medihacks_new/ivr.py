@@ -1,5 +1,5 @@
 import speech_recognition as sr
-
+from elevenlabs import generate, stream
 
 class AI_Assistant:
     def __init__(self):
@@ -27,10 +27,20 @@ class AI_Assistant:
         except sr.RequestError as e:
             print(f"Could not request results from Speech Recognition service; {e}")
 
+    def generate_audio(self, text):
 
-# Example usage:
-if __name__ == "__main__":
+        self.full_transcript.append({"role":"assistant", "content": text})
+        print(f"\nAI Receptionist: {text}")
 
-    # Continuously listen for speech input
-    while True:
-        ai_assistant.speech_to_text()
+        audio_stream = generate(
+            api_key = self.elevenlabs_api_key,
+            text = text,
+            voice = "Rachel",
+            stream = True
+        )
+
+        stream(audio_stream)
+
+greeting = "Thank you for calling Vancouver dental clinic. My name is Sandy, how may I assist you?"
+ai_assistant = AI_Assistant()
+ai_assistant.generate_audio(greeting)
