@@ -1,65 +1,97 @@
+from dotenv import load_dotenv
+import os, requests
+import qrcode
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import UserForm, HealthInfoForm, EmergencyContactForm
+from django.conf import settings
+
+from .forms import UserForm
 from .models import User
+
 from django.contrib.auth.decorators import login_required
 
-
-def user_exist(credential):
-    username = credential.cleaned_data.get("username")
-    password = credential.cleaned_data.get("password")
+def user_exist(username,password):
     user = User.objects.filter(username=username, password=password)
-    return user.exists()
+    if user:
+        return True
+    else:
+        return False
+
 
 def valid_username(credential):
     username = credential.cleaned_data.get("username")
     user = User.objects.filter(username=username)
-    return not user.exists()
+    if user:
+        return False
+    else:
+        return True
+
 
 def login_page(request):
-    form = UserForm()
+
+
+    
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
-            if user_exist(form):
-                messages.add_message(request, messages.INFO, 'Logged in!')
-                return redirect('/')
+            if user_exist(request.POST.get('username', ''),request.POST.get('password', '')):
+                    print(f"Valid user login in")
+                    messages.add_message(request, messages.INFO, 'Logged in!')
+                    return redirect('/')
+    else:
+         form = UserForm()
+
+    sanction_msg=''
     context = {
-        'form': form
+        'form': form,
+        'sanction_msg':sanction_msg
     }
     return render(request, 'user/login.html', context)
 
+
+
 def register_page(request):
-    form = UserForm()
+
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid() and valid_username(form):
-            form.save()
-            return redirect('/user/login')
+                form.save()
+                return redirect('/login')
+    else:
+        form = UserForm()
     context = {
-        'form': form
+        'form': form,
+
     }
     return render(request, 'user/register.html', context)
 
-def landingpage(request):
-    return render(request, 'user/landingpage.html')
-
-
 def dashboard(request):
-    # Generate QR code
+    pass
 
-    return render(request, 'user/dashboard.html', {'qr_code': "qr_code"})
+@login_required
+def landingpage(request):
+    # Generate QR code
+    username=request.user
+    print(f"{request.user} has accessed the landing page")
+
+    context = {
+        'username':username,
+
+    }
+    return render(request, 'user/landingpage.html',context)
+
 
 def health_info(request):
     if request.method == 'POST':
         health_form = HealthInfoForm(request.POST)
+        print("health_formhealth_form",health_form)
         if health_form.is_valid():
             health_info = health_form.save(commit=False)
+            print("equest.user.is_authenticated", request.user.is_authenticated, request.user.id)
             if request.user.is_authenticated:
                 health_info.user = request.user
+                health_info.user_id = request.user.id
             else:
-                # Handle the case where the user is not authenticated
-                # For example, create a new anonymous user for this purpose
                 anonymous_user = User.objects.get_or_create(username='anonymous')[0]
                 health_info.user = anonymous_user
             health_info.save()
@@ -69,22 +101,14 @@ def health_info(request):
     
     return render(request, 'user/health_info_form.html', {'form': health_form})
 
+def view_health_info(request):
+    # Assuming you are fetching the profile of the currently logged-in user
+    user_profile = HealthInfo.objects.filter(user_id=request.user.id)
+    print("user_profileuser_profile",user_profile)
+    context = {
+        'user': user_profile
+    }
+    return render(request, 'user/view_health_info_form.html', context)
 
 def emergency_contact(request):
-    if request.method == 'POST':
-        contact_form = EmergencyContactForm(request.POST)
-        if contact_form.is_valid():
-            emergency_contact = contact_form.save(commit=False)
-            if request.user.is_authenticated:
-                emergency_contact.user = request.user
-            else:
-                # Handle the case where the user is not authenticated
-                # For example, create a new anonymous user for this purpose
-                anonymous_user = User.objects.get_or_create(username='anonymous')[0]
-                emergency_contact.user = anonymous_user
-            emergency_contact.save()
-            return redirect('profile')  # Redirect to user profile page or wherever appropriate
-    else:
-        contact_form = EmergencyContactForm()
-    
-    return render(request, 'user/emergency_contact_form.html', {'form': contact_form})
+    pass

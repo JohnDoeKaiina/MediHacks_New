@@ -12,6 +12,7 @@ class User(models.Model):
 class HealthInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     age = models.PositiveIntegerField()
+    userid = models.PositiveIntegerField()
     weight = models.DecimalField(max_digits=5, decimal_places=2)
     height = models.DecimalField(max_digits=5, decimal_places=2)
     blood_type = models.CharField(max_length=10)

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid health-info-bg">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div class="card health-info-card">
+        <div class="card-body">
+          <h2 class="text-center mb-4">Health Information</h2>
+          <div class="form-group">
+            <div class="col-12">
+              <label for="age">Age:</label>
+              <p>{{ user.age }}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-12">
+              <label for="weight">Weight:</label>
+              <p>{{ user.weight }} kg</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-12">
+              <label for="height">Height:</label>
+              <p>{{ user.height }} cm</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-12">
+              <label for="blood_type">Blood Type:</label>
+              <p>{{ user.blood_type }}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-12">
+              <label for="allergies">Allergies:</label>
+              <p>{{ user.allergies }}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-12">
+              <label for="medical_conditions">Medical Conditions:</label>
+              <p>{{ user.medical_conditions }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
