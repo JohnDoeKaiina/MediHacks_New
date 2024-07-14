@@ -1,0 +1,37 @@
+
+
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="form-container">
+  <div class="row justify-content-center">
+ 
+    <div class="col-12">
+    
+      <div class="card health-info-card">
+        <div class="box total-box">
+            <h1>Emergency Contact Information</h1>
+    
+       </div>
+        <div class="card-body">
+   
+            {% if emergency_contact %}
+                <p><strong>Name:</strong> {{ emergency_contact.name }}</p>
+                <p><strong>Relationship:</strong> {{ emergency_contact.relationship }}</p>
+            
+                <p><strong>Phone:</strong> {{ emergency_contact.phone }}</p>
+                <!-- Add any other fields from your EmergencyContact model as needed -->
+            {% else %}
+                <p>No emergency contact information found.</p>
+            {% endif %}
+   
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
