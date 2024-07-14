@@ -76,7 +76,7 @@ priority==2.0.0
 prompt_toolkit==3.0.47
 ptyprocess==0.7.0
 pure-eval==0.2.2
-PyAudio==0.2.14
+
 pycparser==2.14
 pydantic==2.4.2
 pydantic_core==2.10.1
