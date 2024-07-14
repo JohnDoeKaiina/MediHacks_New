@@ -10,6 +10,18 @@ import os
 load_dotenv()
 
 
+class colors:
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'  # End color sequence
+
 
 # Replace 'path_to_your_db' with the actual path to your db.sqlite3 file
 conn = sqlite3.connect('db.sqlite3')
@@ -31,12 +43,12 @@ class AI_Assistant:
 
     def speech_to_text(self):
         with sr.Microphone() as source:
-            print("Say something...")
+            print(colors.PURPLE + colors.BOLD  + '\n User: ' + colors.END)
             audio = self.recognizer.listen(source)
 
         try:
             text = self.recognizer.recognize_google(audio)
-            print(f"Recognized: {text}")
+            print(f"{text}")
             self.generate_ai_response(text)
         except sr.UnknownValueError:
             print("Speech Recognition could not understand audio")
@@ -45,54 +57,53 @@ class AI_Assistant:
 
     def generate_ai_response(self, text):
         self.full_transcript.append({"role": "user", "content": text})
-        print(f"Patient: {text}")
+
+        # client = Groq()
+
+        # chat_completion = client.chat.completions.create(
+
+        #     messages=[
+        #         {
+        #             "role": "system",
+        #             "content": "you are a helpful assistant."
+        #         },
+
+        #         {
+        #             "role": "user",
+        #             "content": text,
+        #         }
+        #     ],
+
+
+        #     model="llama3-8b-8192",
+        #     temperature=0.2,
+        #     max_tokens=5024,
+        #     top_p=1,
+
+        #     # A stop sequence is a predefined or user-specified text string that
+        #     # signals an AI to stop generating content, Examples "[end]".
+        #     stop=None,
+        #     stream=False,
+        # )
 
         
-        client = Groq()
+        ai_response="fsdfsd"
 
-        chat_completion = client.chat.completions.create(
-
-            messages=[
-                {
-                    "role": "system",
-                    "content": "you are a helpful assistant."
-                },
-
-                {
-                    "role": "user",
-                    "content": text,
-                }
-            ],
-
-
-            model="llama3-8b-8192",
-            temperature=0.2,
-            max_tokens=5024,
-            top_p=1,
-
-            # A stop sequence is a predefined or user-specified text string that
-            # signals an AI to stop generating content, Examples "[end]".
-            stop=None,
-            stream=False,
-        )
-
-        
-        ai_response=chat_completion.choices[0].message.content
-
-
+        print(colors.GREEN + '\nAI Receptionist: ' + colors.END)
+        print(ai_response)
         self.generate_audio(ai_response)
 
     def generate_audio(self, text):
         self.full_transcript.append({"role": "assistant", "content": text})
-        print(f"AI Receptionist: {text}")
 
-        audio_stream = generate(
-            api_key=self.elevenlabs_api_key,
-            text=text,
-            voice="Rachel",
-            stream=True
-        )
-        stream(audio_stream)
+
+        # audio_stream = generate(
+        #     api_key=self.elevenlabs_api_key,
+        #     text=text,
+        #     voice="Rachel",
+        #     stream=True
+        # )
+        # stream(audio_stream)
 
 if __name__ == "__main__":
     greeting = "listen?"
@@ -105,11 +116,11 @@ if __name__ == "__main__":
     # Display the rows
     for row in rows:
         print(row)
-    # ai_assistant = AI_Assistant()
-    # ai_assistant.generate_audio(greeting)
-    # ai_assistant.start_transcription()
+    ai_assistant = AI_Assistant()
+    ai_assistant.generate_audio(greeting)
+    ai_assistant.start_transcription()
 
-    # # Continuously listen for speech input
-    # while True:
-    #     ai_assistant.speech_to_text()
+    # Continuously listen for speech input
+    while True:
+        ai_assistant.speech_to_text()
 
