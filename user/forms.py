@@ -1,5 +1,5 @@
 from django import forms
-from .models import User
+from .models import User,  HealthInfo, EmergencyContact
 
 
 class UserForm(forms.ModelForm):
@@ -11,3 +11,13 @@ class UserForm(forms.ModelForm):
             'password': forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'})
         }
 
+
+class HealthInfoForm(forms.ModelForm):
+    class Meta:
+        model = HealthInfo
+        fields = ['age', 'weight', 'height', 'blood_type', 'allergies', 'medical_conditions']
+
+class EmergencyContactForm(forms.ModelForm):
+    class Meta:
+        model = EmergencyContact
+        fields = ['name', 'relationship', 'phone_number']
