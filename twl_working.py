@@ -71,7 +71,7 @@ def call():
     call = client.calls.create(
         to=target_number,
         from_=twilio_number,
-        url='https://4086-223-185-135-133.ngrok-free.app/voice'  # Replace with your actual Ngrok URL
+        url='https://db08-223-185-135-133.ngrok-free.app/voice'  # Replace with your actual Ngrok URL
     )
     return "Call initiated!", 200
 

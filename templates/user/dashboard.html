@@ -7,7 +7,8 @@
       
             <div class="button-box">
                Medical info
-               <div class="div">        <a href="{% url 'health_info' %}" class="btn btn-purple">
+               <div class="div">        
+                  <a href="{% url 'health_info' %}" class="btn btn-purple">
                   <span>Add </span>
                   </a>
                   <a href="{% url 'view_health_info' %}" class="btn btn-purple">
@@ -81,7 +82,7 @@
          <div class="box transaction-box">
             <div class="header-container">
                <h3 class="section-header">Prescription details</h3>
-               <a href="{% url 'view_emergency_contact' %}" class="btn btn-purple">
+               <a href="{% url 'prescription_form' %}" class="btn btn-purple">
                   <span>+</span>
                   </a>
             </div>
@@ -124,7 +125,7 @@
                       <circle cx="8" cy="8" r="4" fill="#7FB519"/>
                   </svg>
                   Completed
-                  {% elif prescription.status == 'Pending' %}
+                  {% elif prescription.status == 'Ongoing' %}
                   <svg class="status" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <rect width="16" height="16" rx="8" fill="#DBA32A" fill-opacity="0.14"/>
                       <circle cx="8" cy="8" r="4" fill="#DBA32A"/>
