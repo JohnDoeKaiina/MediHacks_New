@@ -107,11 +107,7 @@ class AI_Assistant:
 
 if __name__ == "__main__":
     greeting = "listen?"
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM user_user')
 
-    # Fetch all rows
-    rows = cursor.fetchall()
 
     # Display the rows
     for row in rows:
