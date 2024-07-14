@@ -65,8 +65,10 @@ def register_page(request):
     return render(request, 'user/register.html', context)
 
 def dashboard(request):
-        context={}
-        return render(request, 'user/dashboard.html',context)
+    username=request.session.get('username')
+    
+    context={"username":username, 'MEDIA_URL': settings.MEDIA_URL,}
+    return render(request, 'user/dashboard.html',context)
 
 
 def landingpage(request):
@@ -81,6 +83,28 @@ def landingpage(request):
     return render(request, 'user/landingpage.html',context)
 
 
+def create_qrcode(data,username):
+            print(f"Creating a new QR for the data {data}")
+            # Create a QR code instance
+            qr = qrcode.QRCode(
+                version=1,
+                error_correction=qrcode.constants.ERROR_CORRECT_L, 
+                box_size=10, 
+                border=4,  
+            )
+            qr.add_data(data)
+            qr.make(fit=True)
+
+            # Create an image from the QR code
+            img = qr.make_image(fill_color="black", back_color="white")
+            img.save(f"./media/qrcodes/{username}.png")
+            img.show()
+
+def qrcode_detail(request, username):
+    user_profile = HealthInfo.objects.filter(username=request.session.get('username'))[0]
+    context = {'user_profile': user_profile, }
+    return render(request, 'user/qrcode_details.html', context)
+
 def health_info(request):
     if request.method == 'POST':
         health_form = HealthInfoForm(request.POST)
@@ -91,6 +115,7 @@ def health_info(request):
             health_info.username = username
             health_info.user_id = 1
             health_info.save()
+            create_qrcode(f'http://127.0.0.1:8000/qrcode/{username}',username)
             return redirect('emergency_contact')
     else:
         health_form = HealthInfoForm()

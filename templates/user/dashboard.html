@@ -3,23 +3,25 @@
    <div class="bottom-container">
       <div class="bottom-container__right">
          <div class="box">
-            <img src="https://media.gettyimages.com/id/1397537425/photo/qr-barcode-for-data-labeling.jpg?s=1024x1024&w=gi&k=20&c=1q-8JOR8qGK9EJY0ZyT1cAFZ5W1Z_nfLyA1lxbD3Xx8=" alt="">
+            <img src="{{ MEDIA_URL }}/qrcodes/{{username}}.png" alt="User QR Code">
+          
+            <!-- <img src="https://media.gettyimages.com/id/1397537425/photo/qr-barcode-for-data-labeling.jpg?s=1024x1024&w=gi&k=20&c=1q-8JOR8qGK9EJY0ZyT1cAFZ5W1Z_nfLyA1lxbD3Xx8=" alt=""> -->
             <div class="button-box">
                Medical info
                <div class="div">        <a href="{% url 'health_info' %}" class="btn btn-purple">
                   <span>Add </span>
                   </a>
-                  <a href="{% url 'health_info' %}" class="btn btn-purple">
+                  <a href="{% url 'view_health_info' %}" class="btn btn-purple">
                   <span>View</span>
                   </a>
                </div>
                <br>
                <div class="">
                   Emergency contact <br>
-                  <a href="{% url 'health_info' %}" class="btn btn-blue">
+                  <a href="{% url 'emergency_contact' %}" class="btn btn-blue">
                   <span>Add </span>
                   </a>
-                  <a href="{% url 'health_info' %}" class="btn btn-blue">
+                  <a href="{% url 'view_emergency_contact' %}" class="btn btn-blue">
                   <span>View</span>
                   </a>
                </div>
@@ -75,7 +77,7 @@
       </div>
       <div class="bottom-container__left">
          <div class="box total-box">
-            <h1 class="price">Welcome <br> abc</span></h1>
+            <h1 class="price">Welcome <br> {{username}}</span></h1>
          </div>
          <div class="box transaction-box">
             <div class="header-container">

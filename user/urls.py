@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import login_page, register_page, landingpage, health_info,view_health_info, emergency_contact, view_emergency_contact, dashboard
+from .views import login_page, register_page, landingpage, health_info,view_health_info, emergency_contact, view_emergency_contact, dashboard, qrcode_detail
 
 urlpatterns = [
 
@@ -11,5 +11,5 @@ urlpatterns = [
     path('emergencycontact/', emergency_contact, name='emergency_contact'),
     path('emergencycontact/view', view_emergency_contact, name='view_emergency_contact'),
     path('dashboard/', dashboard, name='dashboard'),
-
+    path('qrcode/<username>/', qrcode_detail, name='qrcode-details'),
 ]
