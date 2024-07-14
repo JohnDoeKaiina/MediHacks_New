@@ -2,12 +2,14 @@ import speech_recognition as sr
 from elevenlabs import generate, stream
 from groq import Groq
 
-
+import time
 import sqlite3
 from dotenv import load_dotenv
 import os
+import openai
 
 load_dotenv()
+
 
 
 class colors:
@@ -26,6 +28,35 @@ class colors:
 # Replace 'path_to_your_db' with the actual path to your db.sqlite3 file
 conn = sqlite3.connect('db.sqlite3')
 
+
+
+def generate_image():
+    conn = sqlite3.connect('db.sqlite3')
+    dic={}
+    if conn:
+        try:
+            cursor = conn.cursor()
+            cursor.execute('SELECT * FROM user_prescrition')
+            rows = cursor.fetchall()
+            
+            for row in rows:
+                if emotions in dic:
+                    dic[emotions]+=1
+                else:
+                    dic[emotion]=1
+                
+        except Exception as e:
+            print("Error executing SQL query:", e)
+    
+    PROMPT = "Generate an abstract image with the following colors in the dictionary {dic}"
+    openai.api_key = os.getenv("OPENAI_API_KEY")
+    response = openai.Image.create(
+        prompt=PROMPT,
+        n=1,
+        size="256x256",
+    )
+
+    print(response["data"][0]["url"])
 
 class AI_Assistant:
     def __init__(self):
@@ -58,36 +89,34 @@ class AI_Assistant:
     def generate_ai_response(self, text):
         self.full_transcript.append({"role": "user", "content": text})
 
-        # client = Groq()
+        client = Groq()
 
-        # chat_completion = client.chat.completions.create(
+        chat_completion = client.chat.completions.create(
 
-        #     messages=[
-        #         {
-        #             "role": "system",
-        #             "content": "you are a helpful assistant."
-        #         },
+            messages=[
+                {
+                    "role": "system",
+                    "content": "A person is going through a long recovery. You must act like its personal friend and cheering them. Also ask for daily mood updates."
+                },
 
-        #         {
-        #             "role": "user",
-        #             "content": text,
-        #         }
-        #     ],
+                {
+                    "role": "user",
+                    "content": text,
+                }
+            ],
 
 
-        #     model="llama3-8b-8192",
-        #     temperature=0.2,
-        #     max_tokens=5024,
-        #     top_p=1,
+            model="llama3-8b-8192",
+            temperature=0.2,
+            max_tokens=5024,
+            top_p=1,
 
-        #     # A stop sequence is a predefined or user-specified text string that
-        #     # signals an AI to stop generating content, Examples "[end]".
-        #     stop=None,
-        #     stream=False,
-        # )
-
-        
-        ai_response="fsdfsd"
+            # A stop sequence is a predefined or user-specified text string that
+            # signals an AI to stop generating content, Examples "[end]".
+            stop=None,
+            stream=False,
+        )
+        ai_response=chat_completion.choices[0].message.content
 
         print(colors.GREEN + '\nAI Receptionist: ' + colors.END)
         print(ai_response)
@@ -95,23 +124,21 @@ class AI_Assistant:
 
     def generate_audio(self, text):
         self.full_transcript.append({"role": "assistant", "content": text})
-
-
-        # audio_stream = generate(
-        #     api_key=self.elevenlabs_api_key,
-        #     text=text,
-        #     voice="Rachel",
-        #     stream=True
-        # )
-        # stream(audio_stream)
+        audio_stream = generate(
+            api_key=self.elevenlabs_api_key,
+            text=text,
+            voice="Rachel",
+            stream=True
+        )
+        stream(audio_stream)
 
 if __name__ == "__main__":
-    greeting = "listen?"
-
-
-    # Display the rows
-    for row in rows:
-        print(row)
+    print('\n\n\n')
+    time.sleep(10)
+    user="Mary Jane"
+    greeting="Hey Mary, it's time for your medicine. Also how are you feeling today"
+    print(colors.GREEN + '\nAI Receptionist: ' + colors.END)
+    print(greeting)
     ai_assistant = AI_Assistant()
     ai_assistant.generate_audio(greeting)
     ai_assistant.start_transcription()

@@ -21,7 +21,7 @@ class HealthInfo(models.Model):
     medical_conditions = models.TextField(blank=True)
 
     def __str__(self):
-        return f"Health info for {self.user.username}"
+        return f"Health info for {self.username}"
 
 class EmergencyContact(models.Model):
     username = models.CharField(max_length=10)
@@ -44,3 +44,10 @@ class Prescrition(models.Model):
     status = models.CharField(max_length=80)
     def __str__(self):
         return self.medicinename
+
+class MoodTracker(models.Model):
+    username = models.CharField(max_length=10)
+    mood = models.CharField(max_length=80)
+    date = models.CharField(max_length=80)
+    def __str__(self):
+        return self.mood

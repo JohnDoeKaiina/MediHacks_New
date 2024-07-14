@@ -30,7 +30,7 @@ class AIAssistant:
             messages=[
                 {
                     "role": "system",
-                    "content": "you are a helpful assistant."
+                    "content": "You are a AI 911 operator. When user ask them a question, first calm them down. Then send help and provide first aid suggestions"
                 },
 
                 {
@@ -48,7 +48,7 @@ class AIAssistant:
             stream=False,
         )
 
-        
+
         ai_response=chat_completion.choices[0].message.content
 
         print("ai_responseai_responseai_response",ai_response)
@@ -73,6 +73,7 @@ def call():
         from_=twilio_number,
         url='https://db08-223-185-135-133.ngrok-free.app/voice'  # Replace with your actual Ngrok URL
     )
+  
     return "Call initiated!", 200
 
 

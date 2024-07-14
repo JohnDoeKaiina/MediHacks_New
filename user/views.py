@@ -103,7 +103,6 @@ def create_qrcode(data,username):
             img.show()
 
 def qrcode_landing_page(request, username):
-    
     return render(request, 'user/qrcode_landing_page.html', {"username":username})
 
 def qrcode_detail(request, username):
@@ -167,7 +166,6 @@ def inform_emergency_contact(request, username):
     try:
         # Retrieve emergency contact info for the given username
         emergency_contact_info = EmergencyContact.objects.filter(username=request.session.get('username'))[0]
-        phone_number = emergency_contact_info.phone_number
         # Retrieve Twilio credentials from settings
         account_sid = settings.TWILIO_ACCOUNT_SID
         auth_token = settings.TWILIO_AUTH_TOKEN
@@ -178,7 +176,7 @@ def inform_emergency_contact(request, username):
         
         # Attempt to send the message
         message = client.messages.create(
-            body='This is an emergency notification.',
+            body='Unfortunately, your loved one has been affected by an accident. Emergency services have been notified, and help is on the way to provide immediate assistance.',
             from_=twilio_phone_number,
             to=phone_number
         )
