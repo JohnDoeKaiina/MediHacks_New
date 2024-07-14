@@ -11,8 +11,8 @@ urlpatterns = [
     path('emergencycontact/', emergency_contact, name='emergency_contact'),
     path('emergencycontact/view', view_emergency_contact, name='view_emergency_contact'),
     path('dashboard/', dashboard, name='dashboard'),
+
     path('qrcode/<username>/', qrcode_landing_page, name='qrcode-landing-page'),
     path('qrcode/<username>/view', qrcode_detail, name='qrcode-details'),
-
     path('qrcode/<username>/inform', inform_emergency_contact, name='qrcode-inform'),
 ]

@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.views.decorators.http import require_POST
 from .forms import UserForm, HealthInfoForm,EmergencyContactForm
-from .models import User, HealthInfo,EmergencyContact
+from .models import User, HealthInfo,EmergencyContact, Prescrition
 from twilio.rest import Client
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -67,8 +67,9 @@ def register_page(request):
 
 def dashboard(request):
     username=request.session.get('username')
-    
-    context={"username":username, 'MEDIA_URL': settings.MEDIA_URL,}
+    prescriptions = Prescrition.objects.filter(username=username)
+    print("prescriptions",prescriptions)
+    context={"username":username, 'MEDIA_URL': settings.MEDIA_URL,"prescriptions":prescriptions}
     return render(request, 'user/dashboard.html',context)
 
 
@@ -76,7 +77,7 @@ def landingpage(request):
     # Generate QR code
     username = request.session.get('username')
     print(f"{username} has accessed the landing page")
-
+    Prescrition
     context = {
         'username':username,
 

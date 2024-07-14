@@ -35,10 +35,11 @@ class EmergencyContact(models.Model):
 
 class Prescrition(models.Model):
     patientid = models.IntegerField()
+    username = models.CharField(max_length=10)
     medicinename = models.CharField(max_length=80)
     quantity = models.CharField(max_length=80)
     days = models.CharField(max_length=80)
     time = models.CharField(max_length=80)
-
+    status = models.CharField(max_length=80)
     def __str__(self):
         return self.medicinename

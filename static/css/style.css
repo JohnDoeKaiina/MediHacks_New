@@ -1273,3 +1273,7 @@ tr>td:first-child {
 		font-size: 15px
 	}
 }
+
+.heading-dashboard{
+	color: white !important;
+}
