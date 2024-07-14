@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.conf import settings
 from django.views.decorators.http import require_POST
-from .forms import UserForm, HealthInfoForm,EmergencyContactForm
+from .forms import UserForm, HealthInfoForm,EmergencyContactForm, PrescritionForm
 from .models import User, HealthInfo,EmergencyContact, Prescrition
 from twilio.rest import Client
 from django.contrib.auth.decorators import login_required
@@ -103,7 +103,8 @@ def create_qrcode(data,username):
             img.show()
 
 def qrcode_landing_page(request, username):
-    return render(request, 'user/qrcode_landing_page.html')
+    
+    return render(request, 'user/qrcode_landing_page.html', {"username":username})
 
 def qrcode_detail(request, username):
     user_profile = HealthInfo.objects.filter(username=request.session.get('username'))[0]
@@ -129,7 +130,6 @@ def health_info(request):
     return render(request, 'user/health_info_form.html', {'form': health_form})
 
 def view_health_info(request):
-    # Assuming you are fetching the profile of the currently logged-in user
     user_profile = HealthInfo.objects.filter(username=request.session.get('username'))[0]
     print("user_profileuser_profile",user_profile)
     context = {
@@ -145,8 +145,9 @@ def emergency_contact(request):
             username = request.session.get('username')
             emergency_contact_info.username = username
             emergency_contact_info.user_id = 1
+            
             emergency_contact_info.save()
-            return redirect('view_emergency_contact')
+            return redirect('dashboard')
     else:
         emergency_form = EmergencyContactForm()
     
@@ -167,7 +168,6 @@ def inform_emergency_contact(request, username):
         # Retrieve emergency contact info for the given username
         emergency_contact_info = EmergencyContact.objects.filter(username=request.session.get('username'))[0]
         phone_number = emergency_contact_info.phone_number
-        phone_number="+919188058865"
         # Retrieve Twilio credentials from settings
         account_sid = settings.TWILIO_ACCOUNT_SID
         auth_token = settings.TWILIO_AUTH_TOKEN
@@ -201,7 +201,6 @@ def seek_ai_help(request,username):
         if phone_number:
             # Set up Twilio client
             print("phone_numberphone_number",phone_number)
-            print("settings.TWILIO_ACCOUNT_SIDsettings.TWILIO_ACCOUNT_SID",settings.TWILIO_ACCOUNT_SID)
             account_sid = settings.TWILIO_ACCOUNT_SID
             auth_token = settings.TWILIO_AUTH_TOKEN
             twilio_phone_number = settings.TWILIO_PHONE_NUMBER
@@ -230,3 +229,19 @@ def seek_ai_help(request,username):
     
     # If GET request or initial rendering of the form
     return render(request, 'user/inform_emergency_contact.html')
+
+
+def prescription_form(request):
+    if request.method == 'POST':
+        form = PrescritionForm(request.POST)
+        if form.is_valid():
+            form_info = form.save(commit=False)
+            username = request.session.get('username')
+            form_info.username = username
+            form_info.patientid = 1
+            form_info.save()
+            return redirect('dashboard')
+    else:
+        form = PrescritionForm()
+    
+    return render(request, 'user/emergency_contact_form.html', {'form': form})

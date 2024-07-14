@@ -1,12 +1,40 @@
-{% extends 'user/login.html' %} {% block user_form %}
-<h2>Register</h2>
+{% extends 'user/login.html' %}
 
-<div class="form-group">{{ form.username }}</div>
-<div class="form-group">{{ form.password }}</div>
-<div class="form-group">
-   Already have an account? Sign in <a href="{% url 'login' %}">here</a>.
-   <br />
-
-   <input type="submit" value="Register" class="btn btn-success py-3 px-5" />
-</div>
+{% block user_form %}
+    <div class="container">
+      <br><br><br><br>
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center">Register</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ form.username.label_tag }}
+                                {{ form.username }}
+                                {% if form.username.errors %}
+                                    <small class="text-danger">{{ form.username.errors }}</small>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.password.label_tag }}
+                                {{ form.password }}
+                                {% if form.password.errors %}
+                                    <small class="text-danger">{{ form.password.errors }}</small>
+                                {% endif %}
+                            </div>
+                            <div class="form-group text-center">
+                                <p>Already have an account? Sign in <a href="{% url 'login' %}">here</a>.</p>
+                                <button type="submit" class="btn btn-success btn-block">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br><br><br><br><br><br>
+    </div>
 {% endblock %}

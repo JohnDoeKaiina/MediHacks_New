@@ -6,7 +6,7 @@
     <!-- Slider Area -->
     <section class="slider">
         <div class="hero-slider">
-            <div class="single-slider" style="background-image:url('https://img.freepik.com/free-photo/female-doctor-blue-uniform-holding-alarm-clock-looking-positive_176474-11844.jpg?t=st=1720961544~exp=1720965144~hmac=60cb951d9e08e5fc3794c667bba14494abb8c79785b791810137665657a9eedf&w=2000')">
+            <div class="single-slider" style="background-image:url('https://img.freepik.com/free-photo/front-view-female-doctor-holding-clock-white-wall_140725-134273.jpg?t=st=1720977469~exp=1720981069~hmac=494eb82b752e410bbad4451f779ad35fc5a295e84cb24762172ceadc27aa37c8&w=1800')">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-7">
@@ -35,9 +35,12 @@
                                     <i class="fa fa-ambulance"></i>
                                 </div>
                                 <div class="single-content">
+                                    <a href="http://127.0.0.1:5000/" target="_blank">
                                   <h4>Seek Immediate Assistance</h4>
                                     <p>If you or someone you know is facing a medical emergency, do not hesitate to contact us immediately. Every moment counts in an emergency situation.</p>
+                                    <b>Click here</b>
                                 </div>
+                            </a>
                             </div>
                         </div>
                     </div>
@@ -49,9 +52,11 @@
                                     <i class="icofont-ui-clock"></i>
                                 </div>
                                 <div class="single-content">
-                              
+                                    <a href="{% url 'qrcode-inform' username=username %}">
                                     <h4>Inform Emergency Contacts</h4>
                                     <p>Ensure your designated emergency contacts are informed about your health conditions and how to reach you in emergencies for swift assistance.</p>
+                                    <b>Click here</b>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -65,8 +70,12 @@
                                 </div>
                                 <div class="single-content">
                                   
-                                    <h4>View Personal Medical Information</h4>
-                                    <p>Access your personal medical information securely to ensure accurate and timely care during emergencies.</p>
+                               <a href="{% url 'qrcode-details' username=username %}">
+                                <h4>View Personal Medical Information</h4>
+                                <p>Access your personal medical information securely to ensure accurate and timely care during emergencies.</p>
+                                <b>Click here</b>
+
+                               </a>
                                 </div>
                             </div>
                         </div>
@@ -76,5 +85,5 @@
         </div>
     </section>
     <!-- End Schedule Area -->
-
+<br><br><br><br><br>
 {% endblock %}
