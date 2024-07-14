@@ -1,0 +1,1 @@
+web gunicorn safeline.wsgi:application --log-file -
