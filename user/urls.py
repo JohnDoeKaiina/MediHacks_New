@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import login_page, register_page, landingpage, health_info, emergency_contact
+from .views import login_page, register_page, landingpage, health_info, emergency_contact, dashboard
 
 urlpatterns = [
 

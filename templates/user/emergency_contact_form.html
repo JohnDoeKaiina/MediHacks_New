@@ -1,6 +1,29 @@
-<h2>Emergency Contact Information</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Save</button>
-</form>
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container-fluid health-info-bg">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <h2 class="text-center mb-4">Health Information</h2>
+      <form method="post" class="form-horizontal">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+          <div class="col-12">
+            {{ field.label_tag }}
+            {{ field }}
+          </div>
+        </div>
+        {% endfor %}
+        <div class="form-group">
+          <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

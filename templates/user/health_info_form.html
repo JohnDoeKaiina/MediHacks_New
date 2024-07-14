@@ -1,6 +1,38 @@
-<h2>Health Information</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Save</button>
-</form>
+{% extends 'base.html' %}
+{% include 'base/header.html' %}
+{% load static %}
+
+{% block content %}
+<div class="form-container">
+  <div class="row justify-content-center">
+ 
+    <div class="col-12">
+    
+      <div class="card health-info-card">
+        <div class="box total-box">
+          <h1 class="price">Health Information</span></h1>
+       </div>
+        <div class="card-body">
+          <h2 class="text-center mb-4"></h2>
+          <form method="post" class="form-horizontal">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+              <div class="col-12">
+                {{ field.label_tag }}
+                {{ field }}
+              </div>
+            </div>
+            {% endfor %}
+            <div class="form-group">
+              <div class="col-12 text-center">
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

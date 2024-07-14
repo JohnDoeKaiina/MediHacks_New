@@ -45,6 +45,10 @@ def landingpage(request):
     return render(request, 'user/landingpage.html')
 
 
+def dashboard(request):
+    # Generate QR code
+
+    return render(request, 'user/dashboard.html', {'qr_code': "qr_code"})
 
 def health_info(request):
     if request.method == 'POST':
