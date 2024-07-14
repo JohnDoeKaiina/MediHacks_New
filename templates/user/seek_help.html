@@ -1,0 +1,19 @@
+<!-- emergency_contact_form.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seek help</title>
+</head>
+<body>
+    <h1>Emergency Contact Form</h1>
+    <form method="post" >
+        {% csrf_token %}
+        <label for="phone_number">Enter Emergency Contact Phone Number:</label><br>
+        <input type="text" id="phone_number" name="phone_number" maxlength="15" required><br><br>
+        <button type="submit">Send SMS</button>
+    </form>
+</body>
+</html>

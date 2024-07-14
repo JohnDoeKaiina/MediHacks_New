@@ -3,10 +3,17 @@ from elevenlabs import generate, stream
 from groq import Groq
 
 
+import sqlite3
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
+
+
+
+# Replace 'path_to_your_db' with the actual path to your db.sqlite3 file
+conn = sqlite3.connect('db.sqlite3')
+
 
 class AI_Assistant:
     def __init__(self):
@@ -89,12 +96,20 @@ class AI_Assistant:
 
 if __name__ == "__main__":
     greeting = "listen?"
-    ai_assistant = AI_Assistant()
-    ai_assistant.generate_audio(greeting)
-    ai_assistant.start_transcription()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM user_user')
 
-    # Continuously listen for speech input
-    while True:
-        ai_assistant.speech_to_text()
+    # Fetch all rows
+    rows = cursor.fetchall()
 
-print(db_host)
+    # Display the rows
+    for row in rows:
+        print(row)
+    # ai_assistant = AI_Assistant()
+    # ai_assistant.generate_audio(greeting)
+    # ai_assistant.start_transcription()
+
+    # # Continuously listen for speech input
+    # while True:
+    #     ai_assistant.speech_to_text()
+

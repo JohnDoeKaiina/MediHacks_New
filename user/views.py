@@ -4,11 +4,12 @@ import qrcode
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.conf import settings
-
+from django.views.decorators.http import require_POST
 from .forms import UserForm, HealthInfoForm,EmergencyContactForm
 from .models import User, HealthInfo,EmergencyContact
-
+from twilio.rest import Client
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 def user_exist(username,password):
     user = User.objects.filter(username=username, password=password)
@@ -100,9 +101,13 @@ def create_qrcode(data,username):
             img.save(f"./media/qrcodes/{username}.png")
             img.show()
 
+def qrcode_landing_page(request, username):
+    return render(request, 'user/qrcode_landing_page.html')
+
 def qrcode_detail(request, username):
     user_profile = HealthInfo.objects.filter(username=request.session.get('username'))[0]
-    context = {'user_profile': user_profile, }
+    emergency_contact = EmergencyContact.objects.filter(username=request.session.get('username'))[0]
+    context = {'user_profile': user_profile, "emergency_contact":emergency_contact}
     return render(request, 'user/qrcode_details.html', context)
 
 def health_info(request):
@@ -154,3 +159,73 @@ def view_emergency_contact(request):
         'emergency_contact': emergency_contact_info
     }
     return render(request, 'user/view_emergency_contact.html', context)
+
+
+def inform_emergency_contact(request, username):
+    try:
+        # Retrieve emergency contact info for the given username
+        emergency_contact_info = EmergencyContact.objects.filter(username=request.session.get('username'))[0]
+        phone_number = emergency_contact_info.phone_number
+        phone_number="+919188058865"
+        # Retrieve Twilio credentials from settings
+        account_sid = settings.TWILIO_ACCOUNT_SID
+        auth_token = settings.TWILIO_AUTH_TOKEN
+        twilio_phone_number = settings.TWILIO_PHONE_NUMBER
+        
+        # Set up Twilio client
+        client = Client(account_sid, auth_token)
+        
+        # Attempt to send the message
+        message = client.messages.create(
+            body='This is an emergency notification.',
+            from_=twilio_phone_number,
+            to=phone_number
+        )
+        
+        # Return success response
+        return JsonResponse({'message': 'SMS sent successfully!'})
+    
+    except EmergencyContact.DoesNotExist:
+        # Handle case where no emergency contact is found for the username
+        return JsonResponse({'error': 'Emergency contact not found.'}, status=404)
+    
+    except Exception as e:
+        # Handle other exceptions (e.g., Twilio API errors)
+        return JsonResponse({'error': str(e)}, status=500)
+
+def seek_ai_help(request,username):
+    if request.method == 'POST':
+        phone_number = request.POST.get('phone_number')
+        
+        if phone_number:
+            # Set up Twilio client
+            print("phone_numberphone_number",phone_number)
+            print("settings.TWILIO_ACCOUNT_SIDsettings.TWILIO_ACCOUNT_SID",settings.TWILIO_ACCOUNT_SID)
+            account_sid = settings.TWILIO_ACCOUNT_SID
+            auth_token = settings.TWILIO_AUTH_TOKEN
+            twilio_phone_number = settings.TWILIO_PHONE_NUMBER
+            
+            client = Client(account_sid, auth_token)
+            
+            try:
+                print("Sending a message")
+                # Compose your message
+                message = client.messages.create(
+                    body='This is an emergency notification.',
+                    from_=twilio_phone_number,
+                    to=phone_number
+                )
+                
+                # Return a JSON response with success message
+                return JsonResponse({'message': 'SMS sent successfully!'})
+            
+            except Exception as e:
+                # Return error response if message sending fails
+                return JsonResponse({'error': str(e)}, status=500)
+        
+        else:
+            # Return error response if phone number is not provided
+            return JsonResponse({'error': 'Phone number not provided.'}, status=400)
+    
+    # If GET request or initial rendering of the form
+    return render(request, 'user/inform_emergency_contact.html')
