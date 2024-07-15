@@ -10,6 +10,9 @@ from .models import User, HealthInfo,EmergencyContact, Prescrition
 from twilio.rest import Client
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+import geocoder
+from geopy.geocoders import Nominatim
+
 
 def user_exist(username,password):
     user = User.objects.filter(username=username, password=password)
@@ -173,10 +176,23 @@ def inform_emergency_contact(request, username):
         
         # Set up Twilio client
         client = Client(account_sid, auth_token)
+
+        # Get scan location
+        location = geocoder.ip('me')
+        Latitude,Longitude = location.latlng
+        print(location.latlng)
+        geolocator = Nominatim(user_agent="geoapiExercises")
+        location = geolocator.reverse(f"{location.latlng[0]}, {location.latlng[1]}")
+        print(location)
         
         # Attempt to send the message
         message = client.messages.create(
-            body='Unfortunately, your loved one has been affected by an accident. Emergency services have been notified, and help is on the way to provide immediate assistance.',
+            body=f"""
+            Unfortunately, your loved one has been affected by an accident. 
+            The location is  {location}
+            The latitude and longitude details are {location.latlng}
+            Emergency services have been notified, and help is on the way to provide immediate assistance.
+            """,
             from_=twilio_phone_number,
             to=phone_number
         )
