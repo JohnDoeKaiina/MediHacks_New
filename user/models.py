@@ -51,3 +51,12 @@ class MoodTracker(models.Model):
     date = models.CharField(max_length=80)
     def __str__(self):
         return self.mood
+
+class EmergencyDispatcher(models.Model):
+    username = models.CharField(max_length=10)
+    location = models.CharField(max_length=80)
+    emergency_type = models.CharField(max_length=80)
+    first_aid_given = models.CharField(max_length=80)
+    status = models.CharField(max_length=80)
+    def __str__(self):
+        return self.mood

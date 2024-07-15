@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.views.decorators.http import require_POST
 from .forms import UserForm, HealthInfoForm,EmergencyContactForm, PrescritionForm
-from .models import User, HealthInfo,EmergencyContact, Prescrition
+from .models import User, HealthInfo,EmergencyContact, Prescrition, EmergencyDispatcher
 from twilio.rest import Client
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse

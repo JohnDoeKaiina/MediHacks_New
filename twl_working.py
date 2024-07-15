@@ -71,16 +71,50 @@ def call():
     return "Call initiated!", 200
 
 
+def extract_emergency_info(user_input):
+    # Initialize variables to store extracted information
+    username = "Unknown"
+    location = "Unknown"
+    first_aid_state = False
+    emergency_type = "Emergency"
+    status = "Unconscious"
+
+    # Use regular expressions to extract the relevant information
+    name_pattern = r"name is (\w+)"
+    location_pattern = r"location is (\d+\s\w+)"
+    first_aid_pattern = r"first aid is done"
+
+    name_match = re.search(name_pattern, user_input)
+    location_match = re.search(location_pattern, user_input)
+    first_aid_match = re.search(first_aid_pattern, user_input)
+
+    if name_match:
+        username = name_match.group(1)
+
+    if location_match:
+        location = location_match.group(1)
+
+    if first_aid_match:
+        first_aid_state = True
+
+
+    # Create an instance of EmergencyDispatcher with extracted information
+    dispatcher = EmergencyDispatcher(username, location, emergency_type, first_aid_state)
+    return dispatcher
+
+
+
 @app.route("/voice", methods=["GET", "POST"])
 def voice():
     """Respond to incoming phone calls with a menu of options"""
     # Start our TwiML response
     resp = VoiceResponse()
-
+    
     if request.method == "POST":
         # Check if 'SpeechResult' is in the form data
         if "SpeechResult" in request.form:
             user_input = request.form["SpeechResult"]
+            extract_emergency_info(user_input)
             ai_response = ai_assistant.generate_ai_response(user_input)
             resp.say(ai_response)
         else:
