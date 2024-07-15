@@ -164,8 +164,8 @@ class AI_Assistant:
 
 if __name__ == "__main__":
     print("\n\n\n")
-    greeting="Hey there! How are you feeling today?"
-    print(colors.GREEN + '\nAI Receptionist: ' + colors.END)
+    greeting = "Hey there! How are you feeling today?"
+    print(colors.GREEN + "\nAI Receptionist: " + colors.END)
     print(greeting)
     ai_assistant = AI_Assistant()
     ai_assistant.generate_audio(greeting)
